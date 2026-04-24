@@ -1,0 +1,12 @@
+[project]
+name = "matmod"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "acp-agent>=0.2.4",
+    "deepagents==0.5.0",
+    "deepagents-acp>=0.0.6",
+    "dotenv>=0.9.9",
+    "langchain-openai>=1.2.0",
+]
