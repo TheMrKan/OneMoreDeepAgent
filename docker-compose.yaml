@@ -1,0 +1,17 @@
+services:
+  agent:
+    container_name: matmod-agent
+
+    # вместо флагов -it в docker run
+    stdin_open: true
+    tty: true
+
+    build:
+      context: .
+    volumes:
+      - ./workspace:/workspace
+      - ./src:/agent/src
+    environment:
+      - WORKSPACE_PATH=/workspace
+    env_file:
+      - .env
