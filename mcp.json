@@ -1,7 +1,10 @@
 {
-  "public-apis": {
-    "command": "uvx",
-    "args": ["public-apis-mcp", "run"],
-    "transport": "stdio"
+  "api-searcher": {
+    "public-apis": {
+      "command": "uvx",
+      "args": ["public-apis-mcp", "run"],
+      "transport": "stdio"
+    }
   }
+
 }
