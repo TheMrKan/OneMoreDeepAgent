@@ -1,6 +1,7 @@
 import asyncio
 import os
 import json
+import datetime
 from pathlib import Path
 from loguru import logger
 from deepagents import create_deep_agent, SubAgent
@@ -41,14 +42,24 @@ async def create_agent():
         skills=[(workspace_path.parent / "skills" / "research").as_posix()],
     )
 
+    data_analyst_subagent = SubAgent(
+        name="data-analyst",
+        description="Анализирует данные, отвечает на вопросы на их основе. "
+                    "Использовать, когда пользователь задает вопросы по уже собранным данным.",
+        system_prompt="Ты субагент - аналитик данных. "
+                      "Твоя задача - проанализировать поданные данные и максимально точно ответить на вопросы с опорой на данные.",
+        skills=[(workspace_path.parent / "skills" / "analysis").as_posix()],
+    )
+
     agent = create_deep_agent(
         name="main",
         model=model,
         checkpointer=MemorySaver(),
         backend=backend,
         tools=mcp_tools.get("main", []),
-        subagents=[api_searcher_subagent, ],
-        system_prompt=f"Твоя рабочая директория - {workspace_path.as_posix()}. Сохраняй файлы и работай там."
+        subagents=[api_searcher_subagent, data_analyst_subagent],
+        system_prompt=f"Текущая дата и время: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}."
+                      f"Твоя рабочая директория - {workspace_path.as_posix()}. Сохраняй файлы и работай там."
                       f"Прежде чем начинать выполнение задачи, ты обязан проверить, есть ли специализированные субагенты под эту задачу."
     )
 
